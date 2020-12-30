@@ -16,7 +16,7 @@ struct priorder //ÖØÐ´·Âº¯Êý
 {
 	bool operator() (customer_info a, customer_info b)
 	{
-		return a.arrivetime.current > b.arrivetime.current; //Ð¡¶¥¶Ñ
+		return a.arrivetime > b.arrivetime; //Ð¡¶¥¶Ñ
 	}
 };
 struct section

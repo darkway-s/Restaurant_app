@@ -12,7 +12,7 @@ public:
 	bool available()const { return avail; }
 	void update_avail()
 	{
-		avail =  dinner.departime.current >= globaltime.current;
+		avail =  dinner.departime >= globaltime;
 	}
 	int dinnerid()
 	{
