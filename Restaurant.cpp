@@ -105,6 +105,8 @@ int Restaurant::available(int k)	//存在m>=k，使得m人桌可用，返回m，否则返回0
 }
 int Restaurant::dine()	//当前时刻为全局变量globaltime
 {
+
+	while(wait_section.Iswaiting())
 	return 0;
 }
 
