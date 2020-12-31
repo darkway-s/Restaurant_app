@@ -6,7 +6,7 @@ using namespace std;
 
 int test() {
 	resclock now(11,26);
-	cout << now;
+	cout << now << endl;
 	return 0;
 }
 resclock starttime(11, 0);
@@ -32,6 +32,7 @@ int main() {
 
 	for (; globaltime <= endtime; globaltime++)
 	{
+		restaurant.update_table_avail();
 		restaurant.dine();
 	}
 	restaurant.output1(outfiledata);

@@ -14,4 +14,8 @@ std::ostream& operator << (std::ostream& output, resclock& c) //¶¨ÒåÔËËã·û¡°<<¡±
 		<< std::setw(2) << std::setfill('0') << c.current % 60;
 	return output;
 }
-
+resclock operator+ (resclock c, int period)	//"+"
+{
+	c += period;
+	return c;
+}

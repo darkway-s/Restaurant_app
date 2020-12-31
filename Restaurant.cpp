@@ -1,6 +1,6 @@
 #include "Restaurant.h"
 using namespace std;
-
+#define DEBUG
 //input
 /***
 * input_customer.txt
@@ -11,7 +11,6 @@ using namespace std;
 4 1
 0
 ***/
-
 /*std::vector<std::vector<table>> tables*/
 Restaurant::Restaurant(std::istream& intable, std::istream& incustomer):tables(MAX_VOLUME)
 {
@@ -85,6 +84,8 @@ void Restaurant::output3(std::ostream& outcustomer)
 //functions
 int Restaurant::specific_available(int k)	//±éÀútables[k-1]£¬Èç¹û´æÔÚÒ»×À×ùÎ»¿ÉÓÃ£¬¾Í¿ÉÓÃ×ùÎ»µÄºÅÂë,·ñÔò·µ»Ø-1
 {
+	if (k <= 0)	return -1;	//¶ÔÓÚ0ÈË×À£¬¿Ï¶¨ÊÇÃ»ÓĞµÄ
+
 	typedef vector<table>::size_type vecsize;
 	vecsize siz = tables[k - 1].size();
 	for (vecsize i = 0; i < siz; i++)
@@ -94,24 +95,61 @@ int Restaurant::specific_available(int k)	//±éÀútables[k-1]£¬Èç¹û´æÔÚÒ»×À×ùÎ»¿ÉÓ
 	}
 	return -1;
 }
-int Restaurant::available(int k)	//´æÔÚm>=k£¬Ê¹µÃmÈË×À¿ÉÓÃ£¬·µ»Øm£¬·ñÔò·µ»Ø0
-{
+int Restaurant::available(int k)	//´æÔÚm>=k£¬Ê¹µÃmÈË×À¿ÉÓÃ£¬·µ»Øm£¬·ñÔò·µ»Ø0¡£
+{	//k<=0Ê±£¬Çé¿öÍ¬k = 1¡£
 	for (int i = k; i <= MAX_VOLUME; i++)
 	{
-		if (available(i) != -1)
+		if (specific_available(i) != -1)
 			return i;
 	}
 	return 0;
 }
 bool Restaurant::Iswaiting()
 {
-	//ÓĞÈËÔÚÅÅ¶Ó£¬²¢ÇÒµ±Ç°¶ÓÊ×µ½´ïÊ±¼äÔçÓÚµ±Ç°Ê±¼ä
+	//ÔÚµ±Ç°Ê±¿Ì£¬ÓĞÈËÔÚÅÅ¶Ó£¬²¢ÇÒµ±Ç°¶ÓÊ×µ½´ïÊ±¼äÔçÓÚµ±Ç°Ê±¼ä
 	return !wait_section.empty() && wait_section.top().arrivetime <= globaltime;
 }
+void Restaurant::update_table_avail()
+{
+	//±éÀúËùÓĞtable£¬¸üĞÂËûÃÇµÄavail×´Ì¬
+	int bigsiz = tables.size();
+	for (int i = 0; i < bigsiz; i++)
+	{
+		int smlsiz = tables[i].size();
+		for (int j = 0; j < smlsiz; j++)
+		{
+			tables[i][j].update_avail();
+		}
+	}
+}
+
 int Restaurant::dine()	//µ±Ç°Ê±¿ÌÎªÈ«¾Ö±äÁ¿globaltime
 {
-
-	while(Iswaiting())
+	while (available() && Iswaiting())	//·¹µêÓĞ¿ÕÎ»ÇÒÓĞÈËÔÚµÈ
+	{
+		//°²ÅÅÈë×ù
+		//TODO
+		customer_info newcomer = wait_section.top();
+		int k = newcomer.size;
+		int tablesiz = available(k);
+		if (tablesiz == 0)//·ñÔò¼ÌĞøµÈ×Å,ºóĞøÓÅ»¯ÔÙ×ö TODO
+		{
+			return 0;
+		}
+		else	//¶ÔÓÚnewcomer×é·ÅµÃÏÂ,¶ÔÓÚkÈË×À£¬ÏÂÒ»¸ö¿ÉÓÃ×ùÎ»µÄÎ»ÖÃÊÇ[available()-1, specific_available(available()-1)]
+		{
+			int tablenum = specific_available(tablesiz);
+			//¸üĞÂµÈ´ıÇø
+			wait_section.pop();
+			//¸üĞÂtables×´Ì¬
+			tables[tablesiz - 1][tablenum].sitin(newcomer);
+#ifdef DEBUG
+			cout << globaltime << ", Èë×ù" << tablesiz << "ÈË×À " << tablenum << "ºÅ×À" << endl;
+#endif
+			//¸üĞÂbill
+			bill.push_back(tables[tablesiz - 1][tablenum].dinner);
+		}
+	}
 	return 0;
 }
 

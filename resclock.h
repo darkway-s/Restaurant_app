@@ -5,6 +5,8 @@
 class resclock
 {
 	friend std::ostream& operator << (std::ostream& output, resclock& c); //定义运算符“<<”重载函数
+	friend resclock operator + (resclock c, int period);	//"+"
+	friend class table;
 private:
 	int current;
 public:
@@ -35,17 +37,26 @@ public:
 	resclock operator++()
 	{
 		current++;
+		update();
 		return *this;
 	}
 	resclock operator++(int)
 	{
 		resclock temp = *this;
 		current++;
+		update();
 		return temp;
+	}
+	resclock operator+=(int period)
+	{
+		current += period;
+		update();
+		return *this;
 	}
 };
 
 std::ostream& operator << (std::ostream& output, resclock& c); //定义运算符“<<”重载函数
+resclock operator + (resclock c, int period);	//"+"
 
 extern resclock globaltime;
 extern resclock starttime;
