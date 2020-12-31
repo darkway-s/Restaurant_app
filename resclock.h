@@ -4,19 +4,19 @@
 
 class resclock
 {
-public:
+	friend std::ostream& operator << (std::ostream& output, resclock& c); //定义运算符“<<”重载函数
+private:
 	int current;
+public:
 	resclock(): current(0){}
 	resclock(int v):current(v){}
 	resclock(int a, int b);
 	void update()	//做完加减法后要记得update()
 	{
-		while (current < 0) 
+		while (current < 0)
 			current += 1440;
 		current = current % 1440;
 	}
-	
-	int print();
 	bool operator<(const resclock& a) const
 	{ 
 		//分为正常时段11:00-23:59;凌晨时段0:00-2:00
@@ -32,5 +32,21 @@ public:
 	{ return !operator>(a);}
 	bool operator>=(const resclock& a) const
 	{ return !operator<(a);}
+	resclock operator++()
+	{
+		current++;
+		return *this;
+	}
+	resclock operator++(int)
+	{
+		resclock temp = *this;
+		current++;
+		return temp;
+	}
 };
+
+std::ostream& operator << (std::ostream& output, resclock& c); //定义运算符“<<”重载函数
+
 extern resclock globaltime;
+extern resclock starttime;
+extern resclock endtime;

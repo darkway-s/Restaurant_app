@@ -7,13 +7,15 @@
 #include "customer_info.h"
 
 const int MAX_VOLUME = 16;	//最大桌不超过16人桌
-struct document 
+class document 
 {
+public:
 	std::vector<customer_info> customers;
 };
 
-struct priorder //重写仿函数
+class priorder //重写仿函数
 {
+public:
 	bool operator() (customer_info a, customer_info b)
 	{
 		return a.arrivetime > b.arrivetime; //小顶堆
@@ -35,5 +37,14 @@ private:
 	section wait_section;
 public:
 	Restaurant(std::istream& intable, std::istream& incustomer);	//初始化tables和wait_section
+	int specific_available(int k);	//k人桌是否可用，返回可用位置(不可用返回-1)
+	int available(int k);	//k人以上的桌是否可用，返回可用的桌大小，如返回m，表示m人桌可用
+	//对于k人桌，下一个可用座位的位置是[available()-1, specific_available(available()-1)]
+
+	int dine();	//让等位区的顾客入座，成功返回1，失败返回0。入座信息更新到bill中
+
+	void output1(std::ostream&);
+	void output2(std::ostream&);
+	void output3(std::ostream&);
 };
 

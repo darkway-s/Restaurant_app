@@ -5,6 +5,9 @@ class customer_info
 {
 	friend class table;
 	friend class priorder;
+	friend class document;
+	friend class Restaurant;
+	friend std::ostream& operator << (std::ostream& output, customer_info& c); //定义运算符“<<”重载函数
 private:
 	int id;					//编号
 	int size;				//顾客人数
@@ -18,3 +21,4 @@ public:
 	customer_info(int siz, resclock arriv, int eatp):id(0), size(siz), arrivetime(arriv), waitperiod(0), startime(0), eatperiod(eatp), departime(0){}
 };
 
+std::ostream& operator << (std::ostream& output, customer_info& c); //定义运算符“<<”重载函数
