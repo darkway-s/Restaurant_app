@@ -5,8 +5,6 @@ class customer_info
 {
 	friend class table;
 	friend class priorder;
-	friend class document;
-	friend class section;
 	friend class Restaurant;
 	friend std::ostream& operator << (std::ostream& output, customer_info& c); //定义运算符“<<”重载函数
 private:

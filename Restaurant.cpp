@@ -38,20 +38,20 @@ Restaurant::Restaurant(std::istream& intable, std::istream& incustomer):tables(M
 		resclock arriv((ins[2] - '0') * 10 + ins[3] - '0', (ins[5] - '0') * 10 + ins[6] - '0');
 		int eatp = ins[8] * 60 + ins[10] + 10 + ins[11];
 		customer_info newcustomer(siz, arriv, eatp);
-		wait_section.customers.push(newcustomer);
+		wait_section.push(newcustomer);
 	} 
 }
 
 //output
 void Restaurant::output1(std::ostream& outdata)	//一天中所有组顾客在饭店的平均停留时间、平均等位时间。注：一组顾客的停留时间=等位时间+就餐时间；
 {
-	int n = bill.customers.size();	//顾客组数
+	int n = bill.size();	//顾客组数
 	int sumwait = 0, sumstay = 0,  sumdine = 0;
 	double avgwait = 0, avgstay = 0, avgdine = 0;
 	for (int i = 0; i < n; i++)
 	{
-		sumwait += bill.customers[i].waitperiod;
-		sumdine += bill.customers[i].eatperiod;
+		sumwait += bill[i].waitperiod;
+		sumdine += bill[i].eatperiod;
 	}
 	sumstay = sumwait + sumdine;
 	avgstay = sumstay / n;
@@ -65,11 +65,11 @@ void Restaurant::output1(std::ostream& outdata)	//一天中所有组顾客在饭店的平均停
 void Restaurant::output2(std::ostream& outdata)
 {
 	resclock lastdepart = starttime;
-	int n = bill.customers.size();	//顾客组数
+	int n = bill.size();	//顾客组数
 	for (int i = 0; i < n; i++)
 	{
-		if (bill.customers[i].departime >= lastdepart)
-			lastdepart = bill.customers[i].departime;
+		if (bill[i].departime >= lastdepart)
+			lastdepart = bill[i].departime;
 	}
 	outdata << "最后一组离开饭店的顾客的离开时间: " << lastdepart << endl;
 }
@@ -77,9 +77,9 @@ void Restaurant::output3(std::ostream& outcustomer)
 {
 	outcustomer << "编号" << "\t" << "顾客人数" << "\t" << "到来时刻" << "\t"
 		<< "等待用时" << "\t" << "就餐时刻" << "\t" << "就餐用时" << "\t" << "离开时刻" << endl;
-	int n = bill.customers.size();	//顾客组数
+	int n = bill.size();	//顾客组数
 	for (int i = 0; i < n; i++)
-		outcustomer << bill.customers[i];
+		outcustomer << bill[i];
 }
 
 //functions
@@ -103,10 +103,15 @@ int Restaurant::available(int k)	//存在m>=k，使得m人桌可用，返回m，否则返回0
 	}
 	return 0;
 }
+bool Restaurant::Iswaiting()
+{
+	//有人在排队，并且当前队首到达时间早于当前时间
+	return !wait_section.empty() && wait_section.top().arrivetime <= globaltime;
+}
 int Restaurant::dine()	//当前时刻为全局变量globaltime
 {
 
-	while(wait_section.Iswaiting())
+	while(Iswaiting())
 	return 0;
 }
 
