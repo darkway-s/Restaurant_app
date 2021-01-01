@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include<queue>
+#include<stack>
 #include<vector>
 #include<string>
 #include "table.h"

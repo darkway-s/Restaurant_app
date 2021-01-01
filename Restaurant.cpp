@@ -136,13 +136,22 @@ int Restaurant::dine()	//当前时刻为全局变量globaltime
 		int tablesiz = available(k);
 		while (tablesiz == 0)//遍历所有可用等位顾客，找到available的一个，如果没有，直接return 0（整个函数）
 		{
+			stack<customer_info> s;	//s记录已经遍历到的等位过客
+			s.push(newcomer);
 			/*int siz = wait_section.size();
-			queue<customer_info> q;	//q记录已经遍历到的等位过客
+			
 			for (int i = 0; i < siz; i++)	//遍历剩余
 			{
 
 			}*/
-			wait_section.push(newcomer);
+			//push回
+			customer_info lastcustomer;
+			while (!s.empty())
+			{
+				lastcustomer = s.top();
+				s.pop();
+				wait_section.push(lastcustomer);
+			}
 			return 0;
 		}
 		//对于newcomer组放得下,对于k人桌，下一个可用座位的位置是[available()-1, specific_available(available()-1)]
