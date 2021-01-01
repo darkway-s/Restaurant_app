@@ -17,8 +17,8 @@ resclock endtime(2, 0);	//2µ„πÿ√≈
 int Restaurant::nextid = 1;
 
 int main() {
-	ifstream infiletable("input_table.txt");
-	ifstream infilecustomer("input_customer.txt");
+	ifstream infiletable("input_table1.txt");
+	ifstream infilecustomer("input_customer1.txt");
 	ofstream outfiledata("output_data.txt");
 	ofstream outfilecustomer("output_customer.txt");
 	

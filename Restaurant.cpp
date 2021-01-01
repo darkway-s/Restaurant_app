@@ -131,18 +131,25 @@ int Restaurant::dine()	//当前时刻为全局变量globaltime
 	{
 		//安排入座
 		customer_info newcomer = wait_section.top();
+		wait_section.pop();
 		int k = newcomer.size;
 		int tablesiz = available(k);
-		if (tablesiz == 0)//否则继续等着,后续优化再做 TODO
+		while (tablesiz == 0)//遍历所有可用等位顾客，找到available的一个，如果没有，直接return 0（整个函数）
 		{
+			/*int siz = wait_section.size();
+			queue<customer_info> q;	//q记录已经遍历到的等位过客
+			for (int i = 0; i < siz; i++)	//遍历剩余
+			{
+
+			}*/
+			wait_section.push(newcomer);
 			return 0;
 		}
-		else	//对于newcomer组放得下,对于k人桌，下一个可用座位的位置是[available()-1, specific_available(available()-1)]
+		//对于newcomer组放得下,对于k人桌，下一个可用座位的位置是[available()-1, specific_available(available()-1)]
 		{
 			//赋予id
 			newcomer.id = nextid++;
 			//更新等待区
-			wait_section.pop();
 			//更新tables状态
 			int tablenum = specific_available(tablesiz);
 			tables[tablesiz - 1][tablenum].sitin(newcomer);
@@ -153,5 +160,5 @@ int Restaurant::dine()	//当前时刻为全局变量globaltime
 			bill.push_back(tables[tablesiz - 1][tablenum].dinner);
 		}
 	}
-	return 0;
+	return 1;
 }
