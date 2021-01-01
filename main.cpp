@@ -5,12 +5,11 @@
 #include"Restaurant.h"
 using namespace std;
 #define DEBUG
-
+//#define RAND
 //初始化时间
 resclock starttime(11, 0);	//11点开门
 resclock globaltime = starttime;	
-resclock endtime(11, 10);	//11点10分关门
-
+resclock endtime(2, 0);	//2点0分关门
 
 //初始化未分配编号
 int Restaurant::nextid = 1;
@@ -46,11 +45,16 @@ void randin(ostream& output)
 
 
 int main() {
-	/*ofstream file_writecustomer("input_customer.txt");
+
+#ifdef RAND
+	ofstream file_writecustomer("input_customer.txt");
 	randin(file_writecustomer);	//随机初始化input_customer.txt
-	file_writecustomer.close();*/
+	file_writecustomer.close();
+#ifdef DEBUG
 	randin(cout);
 	cout << endl;
+#endif // DEBUG
+#endif // RAND
 
 	ifstream infiletable("input_table.txt");
 	ifstream infilecustomer("input_customer.txt");
@@ -59,10 +63,13 @@ int main() {
 	
 	Restaurant restaurant(infiletable, infilecustomer);
 
+	resclock finalcountdown(23, 58);
 	for (; globaltime <= endtime; globaltime++)
 	{
 		restaurant.update_table_avail();
 		restaurant.dine();
+		if (globaltime == finalcountdown)
+			cout << "It's the final countdown." << endl;
 	}
 
 	restaurant.output1(outfiledata);

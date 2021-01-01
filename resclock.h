@@ -24,6 +24,9 @@ public:
 		//分为正常时段11:00-23:59;凌晨时段0:00-2:00
 		//正常时段早于凌晨时段
 		if (current >= 660 && a.current <= 120)	return 1;
+		//凌晨时段晚于正常时段
+		if (current <= 120 && a.current >= 660)	return 0;
+		//同一时段正常比较
 		return current < a.current;
 	}
 	bool operator==(const resclock& a) const

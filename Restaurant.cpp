@@ -3,9 +3,11 @@ using namespace std;
 #define DEBUG
 //input
 /*
-* input_table1.txt
+* input_table2.txt
 4 1
-2 2
+3 2
+2 3
+1 4
 0
 ***/
 /*std::vector<std::vector<table>> tables*/
@@ -29,7 +31,8 @@ Restaurant::Restaurant(std::istream& intable, std::istream& incustomer):tables(M
 2 11:01 0:07
 2 11:02 0:07
 1 11:03 0:03
-0.*/
+0
+***/
 	//incustomer to wait_section
 	int siz, arriv_hour, arriv_minute, eatp;
 	incustomer >> siz;
