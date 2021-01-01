@@ -5,7 +5,7 @@
 #include"Restaurant.h"
 using namespace std;
 #define DEBUG
-#define RAND
+//#define RAND
 //初始化时间
 resclock starttime(11, 0);	//11点开门
 resclock globaltime = starttime;	
@@ -63,11 +63,13 @@ int main() {
 	
 	Restaurant restaurant(infiletable, infilecustomer);
 
+	resclock countdown(23, 58); //bug数据 4 23:58 0:26， 之前一个4人桌是4 23:46 0:24， 应该0:10会空
 	for (; globaltime <= endtime; globaltime++)
 	{
 		restaurant.update_table_avail();
 		restaurant.dine();
-
+		if (globaltime == countdown)
+			cout << "It's the final countdown";
 	}
 
 	restaurant.output1(outfiledata);

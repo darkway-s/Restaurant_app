@@ -177,7 +177,7 @@ int Restaurant::dine()	//当前时刻为全局变量globaltime
 			int tablenum = specific_available(tablesiz);
 			tables[tablesiz - 1][tablenum].sitin(newcomer);
 #ifdef DEBUG
-			cout << globaltime << ", 入座" << tablesiz << "人桌 " << tablenum << "号桌" << endl;
+			cout << globaltime << ", "<< tables[tablesiz - 1][tablenum].dinnerid() <<" 入座" << char(tablesiz - 1 + 'a') << tablenum << endl;
 #endif
 			//更新bill
 			bill.push_back(tables[tablesiz - 1][tablenum].dinner);
