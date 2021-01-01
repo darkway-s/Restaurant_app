@@ -35,7 +35,7 @@ Restaurant::Restaurant(std::istream& intable, std::istream& incustomer):tables(M
 	{
 		int siz = ins[0] - '0';
 		resclock arriv((ins[2] - '0') * 10 + ins[3] - '0', (ins[5] - '0') * 10 + ins[6] - '0');
-		int eatp = ins[8] * 60 + ins[10] + 10 + ins[11];
+		int eatp = (ins[8] - '0') * 60 + (ins[10]-'0')* 10 + ins[11] -'0';
 		customer_info newcustomer(siz, arriv, eatp);
 		wait_section.push(newcustomer);
 	} 
