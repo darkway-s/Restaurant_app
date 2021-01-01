@@ -2,13 +2,9 @@
 #include<fstream>
 #include"Restaurant.h"
 using namespace std;
-//#define DEBUG
+#define DEBUG
 
-int test() {
-	resclock now(11,26);
-	cout << now << endl;
-	return 0;
-}
+//初始化时间
 resclock starttime(11, 0);
 resclock globaltime = starttime;	//11点开门
 #ifdef DEBUG
@@ -16,6 +12,9 @@ resclock endtime(11, 10);	//11点10分关门
 #else
 resclock endtime(2, 0);	//2点关门
 #endif
+
+//初始化未分配编号
+int Restaurant::nextid = 1;
 
 int main() {
 	ifstream infiletable("input_table.txt");
@@ -25,16 +24,15 @@ int main() {
 	
 	Restaurant restaurant(infiletable, infilecustomer);
 
-#ifdef DEBUG
-	test();
-#endif //DEBUG
-	
-
 	for (; globaltime <= endtime; globaltime++)
 	{
 		restaurant.update_table_avail();
 		restaurant.dine();
 	}
+
+	restaurant.output1(outfiledata);
+	restaurant.output2(outfiledata);
+	restaurant.output3(outfilecustomer);
 #ifdef DEBUG
 	cout << "<outfiledata>: " << endl;
 	restaurant.output1(cout);
@@ -42,10 +40,8 @@ int main() {
 	cout << "<outfilecustomer>: " << endl;
 	restaurant.output3(cout);				//虽然cout出来是错位的，但是在文件里是没有问题的
 #endif // DEBUG
+	
 
-	restaurant.output1(outfiledata);
-	restaurant.output2(outfiledata);
-	restaurant.output3(outfilecustomer);
 
 	return 0;
 }

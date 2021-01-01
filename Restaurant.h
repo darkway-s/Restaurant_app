@@ -30,7 +30,9 @@ private:
 	std::vector<std::vector<table>> tables;	//tables[3][2]表示4人桌的第二号桌，记作D2
 	std::vector<customer_info> bill;
 	std::priority_queue<customer_info, std::vector<customer_info>, priorder> wait_section;
+	static int nextid;
 public:
+	
 	Restaurant(std::istream& intable, std::istream& incustomer);	//初始化tables和wait_section
 	int specific_available(int k = 1);	//k人桌是否可用，返回可用位置(不可用返回-1)
 	int available(int k = 1);	//k人以上的桌是否可用，返回可用的桌大小，如返回m，表示m人桌可用

@@ -17,7 +17,6 @@ using namespace std;
 /*std::vector<std::vector<table>> tables*/
 Restaurant::Restaurant(std::istream& intable, std::istream& incustomer):tables(MAX_VOLUME)
 {
-	
 	//intable to tables
 	int k, num;	//k人桌的个数为num
 	table newtable;
@@ -131,7 +130,6 @@ int Restaurant::dine()	//当前时刻为全局变量globaltime
 	while (available() && Iswaiting())	//饭店有空位且有人在等
 	{
 		//安排入座
-		//TODO
 		customer_info newcomer = wait_section.top();
 		int k = newcomer.size;
 		int tablesiz = available(k);
@@ -141,10 +139,12 @@ int Restaurant::dine()	//当前时刻为全局变量globaltime
 		}
 		else	//对于newcomer组放得下,对于k人桌，下一个可用座位的位置是[available()-1, specific_available(available()-1)]
 		{
-			int tablenum = specific_available(tablesiz);
+			//赋予id
+			newcomer.id = nextid++;
 			//更新等待区
 			wait_section.pop();
 			//更新tables状态
+			int tablenum = specific_available(tablesiz);
 			tables[tablesiz - 1][tablenum].sitin(newcomer);
 #ifdef DEBUG
 			cout << globaltime << ", 入座" << tablesiz << "人桌 " << tablenum << "号桌" << endl;
