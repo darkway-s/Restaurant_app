@@ -12,7 +12,7 @@ private:
 public:
 	resclock(): current(0){}
 	resclock(int v) :current(v) { update(); }
-	resclock(int a, int b);
+	resclock(int a, int b) { current = a * 60 + b; update(); }
 	void update()	//做完加减法后要记得update()
 	{
 		while (current < 0)

@@ -7,13 +7,10 @@ using namespace std;
 #define DEBUG
 
 //初始化时间
-resclock starttime(11, 0);
-resclock globaltime = starttime;	//11点开门
-#ifdef DEBUG
+resclock starttime(11, 0);	//11点开门
+resclock globaltime = starttime;	
 resclock endtime(11, 10);	//11点10分关门
-#else
-resclock endtime(2, 0);	//2点关门
-#endif
+
 
 //初始化未分配编号
 int Restaurant::nextid = 1;
@@ -37,8 +34,8 @@ void randin(ostream& output)
 	for (int i = 0; i < sum_customer; i++)
 	{
 		cus_size = rand() % MAX_VOLUME + 1;
-		res_current = 660 + rand() % 901;	//660-1560.
-		resclock res(res_current);			//11:00 - 26:00.  
+		res_current = 660 + rand() % 870;	//660-1529.
+		resclock res(res_current);			//11:00 - 25:29.  
 		eatp = rand() % 30 + 1;				//eatp <= 30.
 
 		output << cus_size << " " << res << " "

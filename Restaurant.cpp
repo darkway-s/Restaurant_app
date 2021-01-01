@@ -2,13 +2,7 @@
 using namespace std;
 #define DEBUG
 //input
-/***
-* input_customer1.txt
-2 11:00 0:05
-2 11:00 0:05
-2 11:01 0:05
-1 11:02 0:03
-0
+/*
 * input_table1.txt
 4 1
 2 2
@@ -29,23 +23,30 @@ Restaurant::Restaurant(std::istream& intable, std::istream& incustomer):tables(M
 		vector<table> newrow(num);
 		tables[k - 1] = newrow;
 	}
-
+/***
+* input_customer1.txt
+2 11:00 0:07
+2 11:01 0:07
+2 11:02 0:07
+1 11:03 0:03
+0.*/
 	//incustomer to wait_section
-	string ins;
-	getline(incustomer, ins);
-	int siz, eatp;
-	for (int flag = 0; ins[0] != '0'; getline(incustomer, ins), flag = 0)	//这里flag仅仅是用来表示siz是二位的还是一位的
+	int siz, arriv_hour, arriv_minute, eatp;
+	incustomer >> siz;
+	while (siz != 0)
 	{
-		if (ins[1] != ' ')	flag = 1;	//siz是两位的
-		if (flag == 0)
-			siz = ins[0] - '0';
-		else
-			siz = (ins[0] - '0') * 10 + ins[1] - '0';
-		resclock arriv((ins[2 + flag] - '0') * 10 + ins[3 + flag] - '0', (ins[5 + flag] - '0') * 10 + ins[6 + flag] - '0');
-		eatp = (ins[8 + flag] - '0') * 60 + (ins[10 + flag]-'0')* 10 + ins[11 + flag] -'0';
+		incustomer >> arriv_hour;
+		incustomer.ignore();
+		incustomer >> arriv_minute;
+		incustomer.ignore(3, ':');	//ignore(2, ':')或ignore(3)都可以
+		incustomer >> eatp;
+
+		resclock arriv(arriv_hour, arriv_minute);
 		customer_info newcustomer(siz, arriv, eatp);
 		wait_section.push(newcustomer);
-	} 
+
+		incustomer >> siz;
+	}
 }
 
 //output
@@ -60,12 +61,12 @@ void Restaurant::output1(std::ostream& outdata)	//一天中所有组顾客在饭店的平均停
 		sumdine += bill[i].eatperiod;
 	}
 	sumstay = sumwait + sumdine;
-	avgstay = sumstay / n;
-	avgwait = sumwait / n;
+	avgstay = ((double)sumstay) / n;
+	avgwait = ((double)sumwait) / n;
 
 	
-	outdata << "平均停留时间: " << avgstay << "秒" << endl;
-	outdata << "平均等位时间: " << avgwait << "秒" << endl;
+	outdata << "平均停留时间: " << avgstay << " min" << endl;
+	outdata << "平均等位时间: " << avgwait << " min" << endl;
 }
 
 void Restaurant::output2(std::ostream& outdata)

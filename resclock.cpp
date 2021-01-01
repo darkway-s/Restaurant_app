@@ -1,7 +1,6 @@
 #include "resclock.h"
 
-resclock::resclock(int a, int b) 
-{ current = a * 60 + b; }
+
 
 std::ostream& operator << (std::ostream& output, resclock& c) //定义运算符“<<”重载函数
 {
