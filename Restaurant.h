@@ -11,9 +11,16 @@ const int MAX_VOLUME = 16;	//最大桌不超过16人桌
 class priorder //重写仿函数
 {
 public:
-	bool operator() (customer_info a, customer_info b)
+	bool operator() (customer_info a, customer_info b)	//小顶堆
 	{
-		return a.arrivetime > b.arrivetime; //小顶堆
+		if (a.arrivetime > b.arrivetime)
+			return 1;
+		else if (a.arrivetime == b.arrivetime)
+		{
+			return a.size > b.size;
+		}
+		else
+			return 0;
 	}
 };
 

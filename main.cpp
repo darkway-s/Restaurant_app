@@ -2,7 +2,7 @@
 #include<fstream>
 #include"Restaurant.h"
 using namespace std;
-#define DEBUG
+//#define DEBUG
 
 int test() {
 	resclock now(11,26);
@@ -27,7 +27,7 @@ int main() {
 
 #ifdef DEBUG
 	test();
-#endif
+#endif //DEBUG
 	
 
 	for (; globaltime <= endtime; globaltime++)
@@ -35,11 +35,17 @@ int main() {
 		restaurant.update_table_avail();
 		restaurant.dine();
 	}
+#ifdef DEBUG
+	cout << "<outfiledata>: " << endl;
+	restaurant.output1(cout);
+	restaurant.output2(cout);
+	cout << "<outfilecustomer>: " << endl;
+	restaurant.output3(cout);				//虽然cout出来是错位的，但是在文件里是没有问题的
+#endif // DEBUG
+
 	restaurant.output1(outfiledata);
 	restaurant.output2(outfiledata);
 	restaurant.output3(outfilecustomer);
 
 	return 0;
 }
-
-#undef DEBUG

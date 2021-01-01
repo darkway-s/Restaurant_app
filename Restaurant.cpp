@@ -3,12 +3,15 @@ using namespace std;
 #define DEBUG
 //input
 /***
-* input_customer.txt
-1 11:00 0:02
-1 11:05 0:03
+* input_customer1.txt
+2 11:00 0:05
+2 11:00 0:05
+2 11:01 0:05
+1 11:02 0:03
 0
-* input_table.txt
+* input_table1.txt
 4 1
+2 2
 0
 ***/
 /*std::vector<std::vector<table>> tables*/
@@ -152,4 +155,3 @@ int Restaurant::dine()	//当前时刻为全局变量globaltime
 	}
 	return 0;
 }
-
