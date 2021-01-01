@@ -11,7 +11,7 @@ private:
 	int current;
 public:
 	resclock(): current(0){}
-	resclock(int v):current(v){}
+	resclock(int v) :current(v) { update(); }
 	resclock(int a, int b);
 	void update()	//做完加减法后要记得update()
 	{

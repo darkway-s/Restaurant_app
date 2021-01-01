@@ -7,7 +7,7 @@
 #include "table.h"
 #include "customer_info.h"
 
-const int MAX_VOLUME = 16;	//最大桌不超过16人桌
+const int MAX_VOLUME = 4;	//最大桌不超过4人桌
 
 class priorder //重写仿函数
 {

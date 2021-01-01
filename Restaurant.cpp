@@ -33,11 +33,16 @@ Restaurant::Restaurant(std::istream& intable, std::istream& incustomer):tables(M
 	//incustomer to wait_section
 	string ins;
 	getline(incustomer, ins);
-	for (; ins[0] != '0'; getline(incustomer, ins))
+	int siz, eatp;
+	for (int flag = 0; ins[0] != '0'; getline(incustomer, ins), flag = 0)	//这里flag仅仅是用来表示siz是二位的还是一位的
 	{
-		int siz = ins[0] - '0';
-		resclock arriv((ins[2] - '0') * 10 + ins[3] - '0', (ins[5] - '0') * 10 + ins[6] - '0');
-		int eatp = (ins[8] - '0') * 60 + (ins[10]-'0')* 10 + ins[11] -'0';
+		if (ins[1] != ' ')	flag = 1;	//siz是两位的
+		if (flag == 0)
+			siz = ins[0] - '0';
+		else
+			siz = (ins[0] - '0') * 10 + ins[1] - '0';
+		resclock arriv((ins[2 + flag] - '0') * 10 + ins[3 + flag] - '0', (ins[5 + flag] - '0') * 10 + ins[6 + flag] - '0');
+		eatp = (ins[8 + flag] - '0') * 60 + (ins[10 + flag]-'0')* 10 + ins[11 + flag] -'0';
 		customer_info newcustomer(siz, arriv, eatp);
 		wait_section.push(newcustomer);
 	} 
@@ -77,7 +82,7 @@ void Restaurant::output2(std::ostream& outdata)
 void Restaurant::output3(std::ostream& outcustomer)
 {
 	outcustomer << "编号" << "\t" << "顾客人数" << "\t" << "到来时刻" << "\t"
-		<< "等待用时" << "\t" << "就餐时刻" << "\t" << "就餐用时" << "\t" << "离开时刻" << endl;
+		<< "等待用时" << "\t" << "就餐时刻" << "\t" << "就餐用时" << "  \t" << "离开时刻" << endl;
 	int n = bill.size();	//顾客组数
 	for (int i = 0; i < n; i++)
 		outcustomer << bill[i];
