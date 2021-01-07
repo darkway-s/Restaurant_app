@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+#include<algorithm>
 #include<queue>
 #include<stack>
 #include<vector>
@@ -43,6 +44,7 @@ public:
 
 	int dine();	//让等位区的顾客入座，成功返回1，失败返回0。入座信息更新到bill中
 
+	void orderbill();	//将bill按编号顺序整理
 	void output1(std::ostream&);
 	void output2(std::ostream&);
 	void output3(std::ostream&);

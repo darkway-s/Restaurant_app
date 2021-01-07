@@ -1,5 +1,5 @@
 #include "table.h"
-//入座后，waitperiod, startime, departime都要更新
+//入座后，id, waitperiod, startime, departime都要更新
 int table::sitin(customer_info c)	//此时应当有avail = 1
 {
 	//更新dinner信息

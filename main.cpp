@@ -4,8 +4,9 @@
 #include<ctime>
 #include"Restaurant.h"
 using namespace std;
-#define DEBUG
+//#define DEBUG
 //#define RAND
+//#define COUNTDOWN
 //初始化时间
 resclock starttime(11, 0);	//11点开门
 resclock globaltime = starttime;	
@@ -17,7 +18,7 @@ int Restaurant::nextid = 1;
 //今日customer数量
 const int sum_customer = 300;
 //随机数种子
-unsigned seed = time(NULL);
+unsigned seed = (unsigned int)time(NULL);
 
 /*input_customer1.txt
 2 11:00 0:05
@@ -62,15 +63,20 @@ int main() {
 	ofstream outfilecustomer("output_customer.txt");
 	
 	Restaurant restaurant(infiletable, infilecustomer);
-
-	resclock countdown(23, 58); //bug数据 4 23:58 0:26， 之前一个4人桌是4 23:46 0:24， 应该0:10会空
+#ifdef COUNTDOWN
+	resclock countdown(23, 58);
+#endif // COUNTDOWN
+	
 	for (; globaltime <= endtime; globaltime++)
 	{
 		restaurant.update_table_avail();
 		restaurant.dine();
+#ifdef COUNTDOWN
 		if (globaltime == countdown)
 			cout << "It's the final countdown";
+#endif // COUNTDOWN
 	}
+	restaurant.orderbill(); //按编号排序账单
 
 	restaurant.output1(outfiledata);
 	restaurant.output2(outfiledata);

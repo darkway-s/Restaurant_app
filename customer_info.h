@@ -7,6 +7,7 @@ class customer_info
 	friend class priorder;
 	friend class Restaurant;
 	friend std::ostream& operator << (std::ostream& output, customer_info& c); //定义运算符“<<”重载函数
+	friend bool cmp_id(const customer_info& a, const customer_info& b);
 private:
 	int id;					//编号
 	int size;				//顾客人数

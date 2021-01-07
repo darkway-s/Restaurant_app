@@ -50,6 +50,25 @@ Restaurant::Restaurant(std::istream& intable, std::istream& incustomer):tables(M
 
 		incustomer >> siz;
 	}
+	//赋予id
+	stack<customer_info> s;	//工作栈s存储历史数据
+	customer_info dinner;	//dinner为当前顾客
+	while (!wait_section.empty())
+	{
+		//取出
+		dinner =  wait_section.top();
+		wait_section.pop();
+		//更新
+		dinner.id = nextid++;
+		//放回
+		s.push(dinner);
+	}
+	while (!s.empty())
+	{
+		dinner = s.top();
+		s.pop();
+		wait_section.push(dinner);
+	}
 }
 
 //output
@@ -170,18 +189,27 @@ int Restaurant::dine()	//当前时刻为全局变量globaltime
 		
 		//对于newcomer组放得下,对于k人桌，下一个可用座位的位置是[available()-1, specific_available(available()-1)]
 		{
-			//赋予id
-			newcomer.id = nextid++;
+			
 			//更新等待区
 			//更新tables状态
 			int tablenum = specific_available(tablesiz);
 			tables[tablesiz - 1][tablenum].sitin(newcomer);
 #ifdef DEBUG
-			cout << globaltime << ", "<< tables[tablesiz - 1][tablenum].dinnerid() <<" 入座" << char(tablesiz - 1 + 'a') << tablenum << endl;
+			cout << globaltime << ", "<< setw(3) << setfill('0') <<tables[tablesiz - 1][tablenum].dinnerid() <<" 入座" << char(tablesiz - 1 + 'a') << tablenum << endl;
 #endif
 			//更新bill
 			bill.push_back(tables[tablesiz - 1][tablenum].dinner);
 		}
 	}
 	return 1;
+}
+
+
+bool cmp_id(const customer_info& a, const customer_info& b)
+{
+	return a.id < b.id;
+}
+void Restaurant::orderbill()
+{
+	sort(bill.begin(), bill.end(), cmp_id);
 }
