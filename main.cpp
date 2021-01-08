@@ -4,16 +4,16 @@
 #include<ctime>
 #include"Restaurant.h"
 using namespace std;
-//#define DEBUG
+#define DEBUG
 //#define RAND
 //#define COUNTDOWN
 //初始化时间
 resclock starttime(11, 0);	//11点开门
 resclock globaltime = starttime;	
-resclock endtime(2, 0);	//2点0分关门
+resclock endtime(1, 30);	//2点0分关门， 1点30打烊
 
 //今日customer数量
-const int sum_customer = 300;
+const int sum_customer = 200;
 //随机数种子
 unsigned seed = (unsigned int)time(NULL);
 

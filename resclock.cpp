@@ -18,3 +18,4 @@ resclock operator+ (resclock c, int period)	//"+"
 	c += period;
 	return c;
 }
+
