@@ -167,7 +167,7 @@ int Restaurant::dine()	//当前时刻为全局变量globaltime
 		if (tablesiz == 0)	//遍历所有可用等位顾客，找到available的一个，如果没有，直接return 0（整个函数）
 		{
 			stack<customer_info> s;	//s记录已经遍历到的等位过客
-			s.push(newcomer);
+			s.push(newcomer);	//建栈之前就已经pop了一个，现在存入
 			while (Iswaiting() && tablesiz == 0)	//遍历剩余
 			{
 				newcomer = wait_section.top();
