@@ -12,9 +12,6 @@ resclock starttime(11, 0);	//11点开门
 resclock globaltime = starttime;	
 resclock endtime(2, 0);	//2点0分关门
 
-//初始化未分配编号
-int Restaurant::nextid = 1;
-
 //今日customer数量
 const int sum_customer = 300;
 //随机数种子
@@ -76,7 +73,7 @@ int main() {
 			cout << "It's the final countdown";
 #endif // COUNTDOWN
 	}
-	restaurant.orderbill(); //按编号排序账单
+	
 
 	restaurant.output1(outfiledata);
 	restaurant.output2(outfiledata);

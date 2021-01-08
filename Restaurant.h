@@ -9,20 +9,22 @@
 #include "customer_info.h"
 
 const int MAX_VOLUME = 4;	//最大桌不超过4人桌
+const int FIRST_ID = 1;
 
 class priorder //重写仿函数
 {
 public:
 	bool operator() (customer_info a, customer_info b)	//小顶堆
 	{
-		if (a.arrivetime > b.arrivetime)
-			return 1;
-		else if (a.arrivetime == b.arrivetime)
+		if (a.arrivetime == b.arrivetime)
 		{
-			return a.size > b.size;
+			if (a.size == b.size)
+				return a.id > b.id;
+			else
+				return a.size > b.size;
 		}
 		else
-			return 0;
+			return a.arrivetime > b.arrivetime;
 	}
 };
 
@@ -32,7 +34,7 @@ private:
 	std::vector<std::vector<table>> tables;	//tables[3][2]表示4人桌的第二号桌，记作D2
 	std::vector<customer_info> bill;
 	std::priority_queue<customer_info, std::vector<customer_info>, priorder> wait_section;
-	static int nextid;
+	int nextid;
 public:
 	
 	Restaurant(std::istream& intable, std::istream& incustomer);	//初始化tables和wait_section

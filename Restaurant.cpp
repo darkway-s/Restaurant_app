@@ -11,7 +11,7 @@ using namespace std;
 0
 ***/
 /*std::vector<std::vector<table>> tables*/
-Restaurant::Restaurant(std::istream& intable, std::istream& incustomer):tables(MAX_VOLUME)
+Restaurant::Restaurant(std::istream& intable, std::istream& incustomer):tables(MAX_VOLUME),nextid(FIRST_ID)
 {
 	//intable to tables
 	int k, num;	//k人桌的个数为num
@@ -104,6 +104,7 @@ void Restaurant::output2(std::ostream& outdata)
 }
 void Restaurant::output3(std::ostream& outcustomer)
 {
+	orderbill(); //按编号排序账单
 	outcustomer << "编号" << "\t" << "顾客人数" << "\t" << "到来时刻" << "\t"
 		<< "等待用时" << "\t" << "就餐时刻" << "\t" << "就餐用时" << "  \t" << "离开时刻" << endl;
 	int n = bill.size();	//顾客组数
@@ -155,6 +156,7 @@ void Restaurant::update_table_avail()
 
 int Restaurant::dine()	//当前时刻为全局变量globaltime
 {
+	if (available() && Iswaiting() == 0)	return 0;
 	while (available() && Iswaiting())	//饭店有空位且有人在等
 	{
 		//安排一组顾客入座
@@ -170,11 +172,13 @@ int Restaurant::dine()	//当前时刻为全局变量globaltime
 			{
 				newcomer = wait_section.top();
 				wait_section.pop();
+				s.push(newcomer);					//边出边进
 				k = newcomer.size;
 				tablesiz = available(k);
 			}
 			//找到第一个使得tablesiz不为0的顾客newcomer
-			
+			if (tablesiz != 0)						
+				s.pop();							//对于正确的newcomer，就不用恢复进wait_section中了
 			//restore wait_section
 			customer_info lastcustomer;
 			while (!s.empty())
@@ -188,18 +192,15 @@ int Restaurant::dine()	//当前时刻为全局变量globaltime
 		}
 		
 		//对于newcomer组放得下,对于k人桌，下一个可用座位的位置是[available()-1, specific_available(available()-1)]
-		{
-			
-			//更新等待区
-			//更新tables状态
-			int tablenum = specific_available(tablesiz);
-			tables[tablesiz - 1][tablenum].sitin(newcomer);
+		
+		//更新tables状态
+		int tablenum = specific_available(tablesiz);
+		tables[tablesiz - 1][tablenum].sitin(newcomer);
 #ifdef DEBUG
-			cout << globaltime << ", "<< setw(3) << setfill('0') <<tables[tablesiz - 1][tablenum].dinnerid() <<" 入座" << char(tablesiz - 1 + 'a') << tablenum << endl;
+		cout << globaltime << ", "<< setw(3) << setfill('0') <<tables[tablesiz - 1][tablenum].dinnerid() <<" 入座" << char(tablesiz - 1 + 'a') << tablenum << endl;
 #endif
-			//更新bill
-			bill.push_back(tables[tablesiz - 1][tablenum].dinner);
-		}
+		//更新bill
+		bill.push_back(tables[tablesiz - 1][tablenum].dinner);
 	}
 	return 1;
 }
