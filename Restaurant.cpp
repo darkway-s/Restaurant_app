@@ -135,6 +135,24 @@ int Restaurant::available(int k)	//存在m>=k，使得m人桌可用，返回m，否则返回0。
 	}
 	return 0;
 }
+/*int Restaurant::available(int k)	//存在m>=k，使得m人桌可用，返回m，否则返回0。
+{	//k<=0时，情况同k = 1。
+
+	//4人组只能去4人桌
+	if (k == MAX_VOLUME)
+		if (specific_available(k) != -1)
+			return k;
+		else return 0;
+	else //其他组不能去4人桌
+	{
+		for (int i = k; i <= MAX_VOLUME - 1; i++)
+		{
+			if (specific_available(i) != -1)
+				return i;
+		}
+		return 0;
+	}
+}*/
 bool Restaurant::Iswaiting()
 {
 	//在当前时刻，有人在排队，并且当前队首到达时间早于当前时间

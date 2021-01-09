@@ -4,7 +4,7 @@
 #include<ctime>
 #include"Restaurant.h"
 using namespace std;
-#define DEBUG
+//#define DEBUG
 //#define RAND
 //#define COUNTDOWN
 //初始化时间
@@ -74,16 +74,15 @@ int main() {
 #endif // COUNTDOWN
 	}
 	
-
 	restaurant.output1(outfiledata);
 	restaurant.output2(outfiledata);
 	restaurant.output3(outfilecustomer);
 #ifdef DEBUG
+	cout << "<outfilecustomer>: " << endl;
+	restaurant.output3(cout);				//虽然cout出来是错位的，但是在文件里是没有问题的
 	cout << "<outfiledata>: " << endl;
 	restaurant.output1(cout);
 	restaurant.output2(cout);
-	cout << "<outfilecustomer>: " << endl;
-	restaurant.output3(cout);				//虽然cout出来是错位的，但是在文件里是没有问题的
 #endif // DEBUG
 	
 	infiletable.close();
