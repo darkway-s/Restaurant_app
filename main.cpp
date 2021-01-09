@@ -53,7 +53,6 @@ int main() {
 	cout << endl;
 #endif // DEBUG
 #endif // RAND
-
 	ifstream infiletable("input_table.txt");
 	ifstream infilecustomer("input_customer.txt");
 	ofstream outfiledata("output_data.txt");
